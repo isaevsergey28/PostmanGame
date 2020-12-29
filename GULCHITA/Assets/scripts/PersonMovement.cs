@@ -16,7 +16,7 @@ public class PersonMovement : MonoBehaviour
 
     private int _inARowNewspaper = 5;
 
-
+    Animator _animator;// аниматор бега
 
     public float firstLanePos;// положение первой линии
     public float laneDistance; // длина одной полосы
@@ -28,6 +28,10 @@ public class PersonMovement : MonoBehaviour
     private void Awake ()
     {
         PlayerMove = this;
+    }
+    private void Start()
+    {
+        _animator = transform.GetChild(1).GetComponent<Animator>();
     }
     public void IncrementLife() // при правильном свайпе увеличение жизни
     {
@@ -92,6 +96,8 @@ public class PersonMovement : MonoBehaviour
     private void PlayerDeath() // смерть игрока
     {
         GetComponent<Collider>().enabled = false;
+
+        _animator.SetBool("isAlive", false);
         CameraTarget tar = this.gameObject.GetComponentInChildren<CameraTarget>();
         tar.DisableTarget();
         _isAlive = false;
@@ -100,6 +106,8 @@ public class PersonMovement : MonoBehaviour
     private void PlayerDismissal() // если игрок проиграл по причине потери всех жизней то срабатывает функция увольнения
     {
         GetComponent<Collider>().enabled = false;
+
+        _animator.SetBool("isAlive", false);
         CameraTarget tar = this.gameObject.GetComponentInChildren<CameraTarget>();
         tar.DisableTarget();
         _isFired = true;
