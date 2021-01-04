@@ -10,12 +10,34 @@ public class SwipeObject : MonoBehaviour
     private bool _isTrigger = false;
     private BoxCollider _boxCollider;
 
+    private bool isActive;
 
     private void Awake()
     {
         swipeObject = this;
     }
-    
+    private void Start()
+    {
+        isActive = DetermineIfActive();
+    }
+    private void LateUpdate()
+    {
+        if(isActive)// если объект свайпа активный(Random.Range(0, 3) == 1) то идет проверка сравнения расстояния 
+        {
+            if (transform.position.x - PersonMovement.PlayerMove.transform.position.x < 20.0f)
+            {
+                gameObject.SetActive(true);
+            }
+        }
+        else// иначе объект становится неактивным
+        {
+            gameObject.SetActive(false);
+        }
+    }
+    public bool DetermineIfActive()// рандом для объектов свайпа
+    {
+        return Random.Range(0, 3) == 1 ? true : false;
+    }
    private void OnTriggerEnter(Collider other)
    {
         if(!_isTrigger && other.gameObject.CompareTag("Player"))

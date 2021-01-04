@@ -93,6 +93,14 @@ public class PersonMovement : MonoBehaviour
             }
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Newspaper")
+        {
+            IncrementLife();
+            Destroy(other.gameObject);
+        }
+    }
     private void PlayerDeath() // смерть игрока
     {
         GetComponent<Collider>().enabled = false;

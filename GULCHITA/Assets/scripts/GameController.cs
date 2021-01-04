@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour
     public Texture2D newspaperIcon; // иконка загеты
 
     public GameObject player;
-    private Newspaper _newspap;
+    private NewspaperMovement _newspap;
 
     private Image _img; // хранит текущую картинку
 
@@ -62,7 +62,7 @@ public class GameController : MonoBehaviour
         _tempPosPicture = transform.position;
         _img = GetComponent<Image>();
         _sc = swipeObj.GetComponent<SwipeController>();
-        _newspap = player.GetComponent<Newspaper>();
+        _newspap = player.GetComponent<NewspaperMovement>();
         _move = player.GetComponent<PersonMovement>();
         points = 0;
     }
@@ -130,7 +130,7 @@ public class GameController : MonoBehaviour
             {
                 SwipeObject.swipeObject.ColliderOff(_swipeCollider);
                 score++;
-                _move.IncrementLife();
+                
                 _newspap.createNewspaper();
             }
             hidePicture();
