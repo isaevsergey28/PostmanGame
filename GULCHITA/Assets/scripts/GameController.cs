@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
+    
+
     public string reasonForEnd { get; private set; }//переменная для вывода в LoserMenu причину проигрыша
 
     static public GameController instruction { get; private set; }// статическая переменная для доступа из других скриптов
@@ -41,6 +43,12 @@ public class GameController : MonoBehaviour
     public float points { get; private set; }
     public float addingSpeed;// увеличение получения очков за дистанцию
 
+
+    public bool paused { get; private set; } = false; // пауза
+    public GameObject camera;
+    private AudioSource _music;// переменные для остановки музыки
+
+
     [HideInInspector] public enum SwipeType// перечисление для 4ех свайпов
     {
         LEFT,
@@ -65,6 +73,7 @@ public class GameController : MonoBehaviour
         _newspap = player.GetComponent<NewspaperMovement>();
         _move = player.GetComponent<PersonMovement>();
         points = 0;
+        _music = camera.GetComponent<AudioSource>();
     }
     private void OnGUI()//  вывод заброшенных газет
     {
@@ -97,7 +106,7 @@ public class GameController : MonoBehaviour
 
     public float addSpeed()// добавление скорости игры
     {
-        gameSpeed += 0.0001f;
+        gameSpeed += 0.0003f;
         gameSpeed = Mathf.Clamp(gameSpeed, 10f, 30f);
         return gameSpeed;
     }
@@ -164,6 +173,22 @@ public class GameController : MonoBehaviour
             style.normal.textColor = Color.black;
             Rect labelRect = new Rect(newspapRect.xMax + 10, newspapRect.y + 10, 60, 60);
             GUI.Label(labelRect, score.ToString(), style);
+        }
+    }
+
+    public void StartOrStorGame()
+    {
+        if(!paused)
+        {
+            Time.timeScale = 0;
+            paused = true;
+            _music.Stop();
+        }
+        else
+        {
+            Time.timeScale = 1;
+            paused = false;
+            _music.Play();
         }
     }
    

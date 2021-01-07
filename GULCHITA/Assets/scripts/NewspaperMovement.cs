@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class NewspaperMovement : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class NewspaperMovement : MonoBehaviour
     private bool _isNewspaperActive = false;
     public GameObject obj;
     private GameObject _newspap;
-    
+    public List<GameObject> allNewspaper = new List<GameObject>();
 
     private int _vertSpeed = 30;
     private Vector3 _tempPos;
@@ -92,13 +93,14 @@ public class NewspaperMovement : MonoBehaviour
     }
     public void destroyNewspaper()
     {
-
         Destroy(_newspap);
+        allNewspaper.RemoveAt(0);
         _isNewspaperActive = false;
         _isLaneGet = false;
     }
     public void createNewspaper()
     {
+
         _isNewspaperActive = true;
         switch(move.getLaneNumber())
         {
@@ -109,6 +111,14 @@ public class NewspaperMovement : MonoBehaviour
                 _newspap = (GameObject)Instantiate(obj, new Vector3(0, 1f, -3.5f), transform.rotation);
                 break;
         }
-        
+
+        allNewspaper.Add(_newspap);
+        if (allNewspaper.Count > 1)
+        {
+            Destroy(allNewspaper[0]);
+            allNewspaper.RemoveAt(0);
+            _count = 0;
+            _isHigh = false;
+        }
     }
 }

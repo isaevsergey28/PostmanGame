@@ -22,7 +22,7 @@ public class SwipeObject : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if(isActive)// если объект свайпа активный(Random.Range(0, 3) == 1) то идет проверка сравнения расстояния 
+        if(isActive)// если объект свайпа активный(Random.Range(0, 2) == 1) то идет проверка сравнения расстояния 
         {
             if (transform.position.x - PersonMovement.PlayerMove.transform.position.x < 20.0f)
             {
@@ -36,7 +36,7 @@ public class SwipeObject : MonoBehaviour
     }
     public bool DetermineIfActive()// рандом для объектов свайпа
     {
-        return Random.Range(0, 3) == 1 ? true : false;
+        return Random.Range(0, 2) == 1 ? true : false;
     }
    private void OnTriggerEnter(Collider other)
    {

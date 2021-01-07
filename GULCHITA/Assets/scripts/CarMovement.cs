@@ -21,14 +21,18 @@ public class CarMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        GenerateCarIfRequired();
-        if(currentCars.Count > 0)
+        if(!GameController.instruction.paused)
         {
-            foreach (var car in currentCars)
+            GenerateCarIfRequired();
+            if (currentCars.Count > 0)
             {
-                car.transform.Translate(new Vector3(0, -1, 0));
+                foreach (var car in currentCars)
+                {
+                    car.transform.Translate(new Vector3(0, -1, 0));
+                }
             }
         }
+        
     }
     
 

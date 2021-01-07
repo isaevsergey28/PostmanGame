@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RoadSpawner : MonoBehaviour
@@ -9,7 +10,7 @@ public class RoadSpawner : MonoBehaviour
 
     public Transform player;
 
-    private List<GameObject> _currentRoad = new List<GameObject>();
+    private List<GameObject> _currentRoads = new List<GameObject>();
 
     private float _startRoadXPos = 0;
     private float _roadCount = 7;
@@ -39,8 +40,9 @@ public class RoadSpawner : MonoBehaviour
     private void CkeckForSpawn()
     {
         _removeRoad = player.position.x - 200f;
-        foreach(var road in _currentRoad)
+        foreach(GameObject road in _currentRoads)
         {
+            _currentRoads = _currentRoads.Where(i => i != null).ToList();//проверка не изменился ли наш список для избежания ошибок изменения коллекции
             if(_removeRoad > road.transform.position.x)
             {
                 SpawnRoad();
@@ -52,22 +54,22 @@ public class RoadSpawner : MonoBehaviour
     {
         GameObject road = (GameObject)Instantiate(roadBlocks[MainMenu.roadNumber], transform); // Random.Range(0, RoadBlocks.Length)
         Vector3 roadXPos;
-        if(_currentRoad.Count > 0)
+        if(_currentRoads.Count > 0)
         {
-            roadXPos = _currentRoad[_currentRoad.Count - 1].transform.position + new Vector3(_roadLenght, 0, 0);
+            roadXPos = _currentRoads[_currentRoads.Count - 1].transform.position + new Vector3(_roadLenght, 0, 0);
         }
         else
         {
             roadXPos = new Vector3(_startRoadXPos, 0, 0);
         }
         road.transform.position = roadXPos;
-        _currentRoad.Add(road);
+        _currentRoads.Add(road);
     }
 
     private void DestroyRoad()
     {
-        Destroy(_currentRoad[0]);
-        _currentRoad.RemoveAt(0);
+        Destroy(_currentRoads[0]);
+        _currentRoads.RemoveAt(0);
 
     }
 }

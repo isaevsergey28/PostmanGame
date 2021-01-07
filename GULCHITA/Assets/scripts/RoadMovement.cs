@@ -6,9 +6,7 @@ public class RoadMovement : MonoBehaviour
 {
     private Vector3 _moveVec;
     private float _speed;
-
-    public GameObject newspaper;
-
+    
     private void Start()
     {
         
