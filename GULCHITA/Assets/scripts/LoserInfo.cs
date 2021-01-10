@@ -15,6 +15,10 @@ public class LoserInfo : MonoBehaviour
     {
         _gm = controllerObject.GetComponent<GameController>();
         _playerInfo = GetComponent<Text>();
+       
+    }
+    private void Update()
+    {
         _playerInfo.text = _gm.reasonForEnd + "\n\nЗаброшенные газеты : " + _gm.score.ToString() + "\n\n" + "Ваши очки : " + ((int)_gm.points);
     }
 }

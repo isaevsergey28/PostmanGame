@@ -75,4 +75,13 @@ public class MainMenu : MonoBehaviour
         string buttonName = selectedButton.transform.GetChild(0).name.ToString();
         roadName = buttonName;
     }
+
+    public void SeeInstructions()
+    {
+        SceneManager.LoadScene("Instruction");
+    }
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 }

@@ -21,7 +21,7 @@ public class CarMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(!GameController.instruction.paused)
+        if(!GameController.gameController.paused)
         {
             GenerateCarIfRequired();
             if (currentCars.Count > 0)
@@ -77,12 +77,14 @@ public class CarMovement : MonoBehaviour
         {
             int randomIndex = Random.Range(0, availableCars.Length);
             GameObject car = (GameObject)Instantiate(availableCars[randomIndex]);
-            car.transform.position = new Vector3(player.transform.position.x + 100f, 1.32f, 0);
+            car.transform.position = new Vector3(player.transform.position.x + 200f, 1.32f, 0);
             if (currentCars.Count > 1)
             {
                 if (Mathf.Abs(currentCars[currentCars.Count - 1].transform.position.x - car.transform.position.x) < 20f)
                 {
+                 
                     car.transform.position = new Vector3(car.transform.position.x + 50f, car.transform.position.y, 0);
+                    Debug.Log(car.transform.position.x);
                 }
             }
             currentCars.Add(car);
@@ -92,7 +94,7 @@ public class CarMovement : MonoBehaviour
     
     private int GetIntervalBetweenCars() // интервал для рандомной генерации машины
     {
-        return Random.Range(0, 200);
+        return Random.Range(0, 100);
     }
 }
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class PersonMovement : MonoBehaviour
 {
@@ -14,6 +14,7 @@ public class PersonMovement : MonoBehaviour
     private int _laneNumber = 1;
     private int _laneCount = 2;
 
+    public Text lifeCount;// счет жизни игрока
     private int _inARowNewspaper = 5;
 
     Animator _animator;// аниматор бега
@@ -21,8 +22,7 @@ public class PersonMovement : MonoBehaviour
     public float firstLanePos;// положение первой линии
     public float laneDistance; // длина одной полосы
     public float sideSpeed; // скорость смещения
-
-    public Texture2D lifeIcon;
+    
 
 
     private void Awake ()
@@ -55,13 +55,20 @@ public class PersonMovement : MonoBehaviour
     // кнопки для смещения
    public void OnRightButtonDown()
     {
-        _laneNumber += 1;
-        _laneNumber = Mathf.Clamp(_laneNumber, 0, _laneCount);
+        if(!GameController.gameController.paused)
+        {
+            _laneNumber += 1;
+            _laneNumber = Mathf.Clamp(_laneNumber, 0, _laneCount);
+        }
+       
     }
     public void OnLeftButtonDown()
     {
-        _laneNumber -= 1;
-        _laneNumber = Mathf.Clamp(_laneNumber, 0, _laneCount);
+        if (!GameController.gameController.paused)
+        {
+            _laneNumber -= 1;
+            _laneNumber = Mathf.Clamp(_laneNumber, 0, _laneCount);
+        }
     } 
     public void OnButtonUp()
     {
@@ -84,6 +91,8 @@ public class PersonMovement : MonoBehaviour
         }
         else if (other.collider.tag == "WorkDetecter")
         {
+            SwipeObject.swipeObject.SaveSwipeObject(other.gameObject.transform.parent.gameObject);
+            SwipeObject.swipeObject.ChangeSwipeColor(new Color(1, 0, 0, 0.5f));
             _inARowNewspaper--;
             _inARowNewspaper = Mathf.Clamp(_inARowNewspaper, 0, 5);
             if (_inARowNewspaper == 0)
@@ -91,6 +100,7 @@ public class PersonMovement : MonoBehaviour
                 PlayerDeath();
                 PlayerDismissal();
             }
+            lifeCount.text = _inARowNewspaper.ToString();
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -121,22 +131,4 @@ public class PersonMovement : MonoBehaviour
         _isFired = true;
     }
 
-    private void OnGUI()
-    {
-        DisplayLife();
-    }
-    private void DisplayLife() // вывод жизни на экран
-    {
-        if(_isAlive)
-        {
-            Rect newspapRect = new Rect(65, 150, 50, 50);
-            GUI.DrawTexture(newspapRect, lifeIcon);
-            GUIStyle style = new GUIStyle();
-            style.fontSize = 30;
-            style.fontStyle = FontStyle.Bold;
-            style.normal.textColor = Color.black;
-            Rect labelRect = new Rect(newspapRect.xMax + 10, newspapRect.y + 10, 60, 60);
-            GUI.Label(labelRect, _inARowNewspaper.ToString(), style);
-        }
-    }
 }

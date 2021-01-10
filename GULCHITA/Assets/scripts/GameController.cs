@@ -9,15 +9,14 @@ public class GameController : MonoBehaviour
 
     public string reasonForEnd { get; private set; }//переменная для вывода в LoserMenu причину проигрыша
 
-    static public GameController instruction { get; private set; }// статическая переменная для доступа из других скриптов
+    static public GameController gameController { get; private set; }// статическая переменная для доступа из других скриптов
     static public float gameSpeed { get; private set; } = 10f;// начальная скорость игры
 
-    private GameObject _swipeCollider; // хранит переменную spiweObject
+    public GameObject _swipeCollider { get; private set; } // хранит переменную spiweObject
 
     private Vector3 _tempPosPicture; // вектор для хранения позиции стрелочки для свайпа
 
-    public int score { get; private set; } = 0; // свойство счета заброшенных газет
-
+   
 
     public List<Sprite> pictures;// стрелочки для свайпа
 
@@ -26,7 +25,7 @@ public class GameController : MonoBehaviour
     public Texture2D newspaperIcon; // иконка загеты
 
     public GameObject player;
-    private NewspaperMovement _newspap;
+    private NewspaperMovement2 _newspap;
 
     private Image _img; // хранит текущую картинку
 
@@ -42,6 +41,9 @@ public class GameController : MonoBehaviour
     public Text runningScore;// очки получаемые за пройденную дистанцию
     public float points { get; private set; }
     public float addingSpeed;// увеличение получения очков за дистанцию
+
+    public Text newspaperScore;// счет заброшенных газет
+    public int score { get; private set; } = 0; 
 
 
     public bool paused { get; private set; } = false; // пауза
@@ -61,7 +63,7 @@ public class GameController : MonoBehaviour
     
     private void Awake()// инициализация статик переменной
     {
-        instruction = this;
+        gameController = this;
     }
     
     private void Start()
@@ -70,14 +72,10 @@ public class GameController : MonoBehaviour
         _tempPosPicture = transform.position;
         _img = GetComponent<Image>();
         _sc = swipeObj.GetComponent<SwipeController>();
-        _newspap = player.GetComponent<NewspaperMovement>();
+        _newspap = player.GetComponent<NewspaperMovement2>();
         _move = player.GetComponent<PersonMovement>();
         points = 0;
         _music = camera.GetComponent<AudioSource>();
-    }
-    private void OnGUI()//  вывод заброшенных газет
-    {
-        DisplayNewspaperCount();
     }
     private void FixedUpdate()
     {
@@ -138,10 +136,17 @@ public class GameController : MonoBehaviour
             if (type == (SwipeController.SwipeType)thisType[_pictureIndex])
             {
                 SwipeObject.swipeObject.ColliderOff(_swipeCollider);
+                SwipeObject.swipeObject.SaveSwipeObject(_swipeCollider);
                 score++;
-                
-                _newspap.createNewspaper();
+                SwipeObject.swipeObject.ChangeSwipeColor(new Color(0, 1, 0, 0.5f));
+                _newspap.CreateNewspaper();
             }
+            else
+            {
+                SwipeObject.swipeObject.SaveSwipeObject(_swipeCollider);
+                SwipeObject.swipeObject.ChangeSwipeColor(new Color(1, 0, 0, 0.5f));
+            }
+            newspaperScore.text = score.ToString();
             hidePicture();
         }
     }
@@ -160,22 +165,7 @@ public class GameController : MonoBehaviour
         }
         _isPirtureOnScreen = true;
     }
-
-    private void DisplayNewspaperCount() 
-    {
-        if (_move.GetPlayerLife() && !_move.GetPlayerStatus())
-        {
-            Rect newspapRect = new Rect(65, 100, 50, 50);
-            GUI.DrawTexture(newspapRect, newspaperIcon);
-            GUIStyle style = new GUIStyle();
-            style.fontSize = 30;
-            style.fontStyle = FontStyle.Bold;
-            style.normal.textColor = Color.black;
-            Rect labelRect = new Rect(newspapRect.xMax + 10, newspapRect.y + 10, 60, 60);
-            GUI.Label(labelRect, score.ToString(), style);
-        }
-    }
-
+   
     public void StartOrStorGame()
     {
         if(!paused)
