@@ -51,6 +51,7 @@ public class PersonMovement : MonoBehaviour
             curPos.z = Mathf.Lerp(curPos.z, firstLanePos + (_laneNumber * laneDistance), Time.fixedDeltaTime * sideSpeed);
             transform.position = curPos;
         }
+        lifeCount.text = _inARowNewspaper.ToString();
     }
     // кнопки для смещения
    public void OnRightButtonDown()
@@ -100,7 +101,7 @@ public class PersonMovement : MonoBehaviour
                 PlayerDeath();
                 PlayerDismissal();
             }
-            lifeCount.text = _inARowNewspaper.ToString();
+            
         }
     }
     private void OnTriggerEnter(Collider other)

@@ -20,14 +20,15 @@ public class SwipeObject : MonoBehaviour
     }
     private void Start()
     {
-        if(!DetermineIfActive())
+        isActive = DetermineIfActive();
+        if (!isActive)
         {
             gameObject.SetActive(false);
         }
     }
     public bool DetermineIfActive()// рандом для объектов свайпа
     {
-        return Random.Range(0, 3) == 1 ? true : false;
+        return Random.Range(0, 2) == 1 ? true : false;
     }
    private void OnTriggerEnter(Collider other)
    {

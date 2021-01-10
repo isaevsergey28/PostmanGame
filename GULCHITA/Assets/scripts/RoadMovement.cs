@@ -26,7 +26,7 @@ public class RoadMovement : MonoBehaviour
 
         foreach(var swipeObject in allSwipeObjects.ToList())
         {
-            if (swipeObject.transform.position.x - PersonMovement.PlayerMove.transform.position.x < 50.0f)
+            if (swipeObject.transform.position.x - PersonMovement.PlayerMove.transform.position.x < 50.0f && swipeObject.GetComponent<SwipeObject>().isActive)
             {
                 swipeObject.gameObject.SetActive(true);
             }

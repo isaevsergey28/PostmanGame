@@ -68,6 +68,7 @@ public class GameController : MonoBehaviour
     
     private void Start()
     {
+        gameSpeed = 10f;
         addingSpeed = 3f;
         _tempPosPicture = transform.position;
         _img = GetComponent<Image>();
