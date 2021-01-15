@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour
     public float addingSpeed;// увеличение получения очков за дистанцию
 
     public Text newspaperScore;// счет заброшенных газет
-    public int score { get; private set; } = 0; 
+    public int score { get; private set; }
 
 
     public bool paused { get; private set; } = false; // пауза
@@ -76,6 +76,7 @@ public class GameController : MonoBehaviour
         _newspap = player.GetComponent<NewspaperMovement2>();
         _move = player.GetComponent<PersonMovement>();
         points = 0;
+        score = 0;
         _music = camera.GetComponent<AudioSource>();
     }
     private void FixedUpdate()
@@ -106,7 +107,7 @@ public class GameController : MonoBehaviour
     public float addSpeed()// добавление скорости игры
     {
         gameSpeed += 0.0003f;
-        gameSpeed = Mathf.Clamp(gameSpeed, 10f, 30f);
+        gameSpeed = Mathf.Clamp(gameSpeed, 10f, 22f);
         return gameSpeed;
     }
 

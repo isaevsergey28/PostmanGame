@@ -17,7 +17,7 @@ public class PersonMovement : MonoBehaviour
     public Text lifeCount;// счет жизни игрока
     private int _inARowNewspaper = 5;
 
-    Animator _animator;// аниматор бега
+    Animator _animator;// аниматор состояний игрока
 
     public float firstLanePos;// положение первой линии
     public float laneDistance; // длина одной полосы
@@ -44,7 +44,7 @@ public class PersonMovement : MonoBehaviour
     }
     void FixedUpdate()// смещение в разные сстороны
     {
-        
+
         if (_isAlive)
         {
             Vector3 curPos = transform.position;
@@ -92,6 +92,7 @@ public class PersonMovement : MonoBehaviour
         }
         else if (other.collider.tag == "WorkDetecter")
         {
+            Debug.Log("tyt");
             SwipeObject.swipeObject.SaveSwipeObject(other.gameObject.transform.parent.gameObject);
             SwipeObject.swipeObject.ChangeSwipeColor(new Color(1, 0, 0, 0.5f));
             _inARowNewspaper--;
@@ -116,7 +117,7 @@ public class PersonMovement : MonoBehaviour
     {
         GetComponent<Collider>().enabled = false;
 
-        _animator.SetBool("isAlive", false);
+        _animator.SetTrigger("isDead");
         CameraTarget tar = this.gameObject.GetComponentInChildren<CameraTarget>();
         tar.DisableTarget();
         _isAlive = false;
@@ -126,7 +127,7 @@ public class PersonMovement : MonoBehaviour
     {
         GetComponent<Collider>().enabled = false;
 
-        _animator.SetBool("isAlive", false);
+        _animator.SetTrigger("isFired");
         CameraTarget tar = this.gameObject.GetComponentInChildren<CameraTarget>();
         tar.DisableTarget();
         _isFired = true;

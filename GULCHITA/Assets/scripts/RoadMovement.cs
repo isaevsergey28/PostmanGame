@@ -13,7 +13,7 @@ public class RoadMovement : MonoBehaviour
     private void Start()
     {
         
-        _moveVec = new Vector3(0, 0, -1);
+        _moveVec = new Vector3(-1, 0, 0); // z = -1
     }
 
     private void Update()

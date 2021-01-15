@@ -11,6 +11,12 @@ using UnityEngine.EventSystems;
 
 public class MainMenu : MonoBehaviour
 {
+    public AudioClip maksim;
+    public GameObject menu;
+    public GameObject instruction;
+
+    public Text newspaperScore;
+    public Text runningScore;
 
     private string roadName;
     static public int roadNumber;
@@ -19,9 +25,37 @@ public class MainMenu : MonoBehaviour
     private const int port = 1337;
     private const string server = "127.0.0.1";
 
+    private int _newspaperScore;
+    private int _runningScore;
+
+    private AudioSource _aus;
+
     void Start()
     {
         roadName = string.Empty;
+
+        if(PlayerPrefs.HasKey("newspaperScore"))
+        {
+            _newspaperScore = PlayerPrefs.GetInt("newspaperScore");
+        }
+        else
+        {
+            _newspaperScore = 0;
+        }
+        if (PlayerPrefs.HasKey("runningScore"))
+        {
+            _runningScore = PlayerPrefs.GetInt("runningScore");
+        }
+        else
+        {
+            _runningScore = 0;
+        }
+        newspaperScore.text += " " + _newspaperScore.ToString();
+        runningScore.text += " " + _runningScore.ToString();
+
+
+        _aus = GetComponent<AudioSource>();
+        _aus.clip = maksim;
     }
     
     
@@ -30,8 +64,9 @@ public class MainMenu : MonoBehaviour
         
         if(_isPressed)
         {
-            _isPressed = false;
-            ConnectToServer();
+            //_isPressed = false;
+            //ConnectToServer();
+            RestartLevel();
         }
     }
 
@@ -78,10 +113,15 @@ public class MainMenu : MonoBehaviour
 
     public void SeeInstructions()
     {
-        SceneManager.LoadScene("Instruction");
+        menu.SetActive(false);
+        instruction.SetActive(true);
+        
+        _aus.Play();
     }
     public void BackToMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        menu.SetActive(true);
+        instruction.SetActive(false );
+        _aus.Stop();
     }
 }

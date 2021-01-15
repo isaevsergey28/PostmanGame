@@ -28,7 +28,7 @@ public class CarMovement : MonoBehaviour
             {
                 foreach (var car in currentCars)
                 {
-                    car.transform.Translate(new Vector3(0, -1, 0));
+                    car.transform.Translate(new Vector3(0, -1.5f, 0));
                 }
             }
         }

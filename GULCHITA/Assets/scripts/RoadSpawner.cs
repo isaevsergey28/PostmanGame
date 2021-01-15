@@ -20,9 +20,9 @@ public class RoadSpawner : MonoBehaviour
 
     private void Start()
     {
-        _startRoadXPos = player.position.x + 55f;
+        _startRoadXPos = player.position.x + 24f; // 55
 
-        _roadLenght = 120;
+        _roadLenght = 50; // 120
 
       
          
@@ -39,7 +39,7 @@ public class RoadSpawner : MonoBehaviour
 
     private void CkeckForSpawn()
     {
-        _removeRoad = player.position.x - 200f;
+        _removeRoad = player.position.x - 40f; // 200
         foreach(GameObject road in _currentRoads)
         {
             _currentRoads = _currentRoads.Where(i => i != null).ToList();//проверка не изменился ли наш список для избежания ошибок изменения коллекции
@@ -52,7 +52,7 @@ public class RoadSpawner : MonoBehaviour
     }
     private void SpawnRoad()
     {
-        GameObject road = (GameObject)Instantiate(roadBlocks[MainMenu.roadNumber], transform); // Random.Range(0, RoadBlocks.Length)
+        GameObject road = (GameObject)Instantiate(roadBlocks[0], transform); // Random.Range(0, RoadBlocks.Length)
         Vector3 roadXPos;
         if(_currentRoads.Count > 0)
         {
@@ -60,7 +60,7 @@ public class RoadSpawner : MonoBehaviour
         }
         else
         {
-            roadXPos = new Vector3(_startRoadXPos, 0, 0);
+            roadXPos = new Vector3(_startRoadXPos, 0.7f, 0); //y = 0 
         }
         road.transform.position = roadXPos;
         _currentRoads.Add(road);

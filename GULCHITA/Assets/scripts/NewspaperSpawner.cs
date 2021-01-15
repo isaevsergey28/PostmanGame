@@ -26,6 +26,6 @@ public class NewspaperSpawner : MonoBehaviour
     }
     public bool DetermineIfActive()
     {
-        return Random.Range(0, 2) == 1 ? true : false;
+        return Random.Range(0, 5) == 1 ? true : false;//2
     }
 }
